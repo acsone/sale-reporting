@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<openerp>
+    <data>
+        <record model="ir.ui.view" id="product_form_view_sale_order_button">
+            <field name="name">product.product.sale.order (sale_report_static)</field>
+            <field name="model">product.product</field>
+            <field name="inherit_id" ref="sale.product_form_view_sale_order_button"/>
+            <field name="groups_id" eval="[(4, ref('base.group_sale_salesman'))]"/>
+            <field name="arch" type="xml">
+                <button name="action_view_sales" position="after">
+                    <button class="oe_inline oe_stat_button"
+                    name="action_open_sale_report_view" type="object" string="Sales by periods"
+                    icon="fa-strikethrough"/>
+                </button>
+            </field>
+        </record>
+        <record model="ir.ui.view" id="product_template_form_view_sale_order_button">
+            <field name="name">product.template.sale.order (sale_report_static)</field>
+            <field name="model">product.template</field>
+            <field name="inherit_id" ref="sale.product_template_form_view_sale_order_button"/>
+            <field name="groups_id" eval="[(4, ref('base.group_sale_salesman'))]"/>
+            <field name="arch" type="xml">
+                <button name="action_view_sales" position="after">
+                    <button class="oe_inline oe_stat_button"
+                    name="action_open_sale_report_view" type="object" string="Sales by periods"
+                    icon="fa-strikethrough"/>
+                </button>
+            </field>
+        </record>
+    </data>
+</openerp>

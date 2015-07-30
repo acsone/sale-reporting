@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<openerp>
+    <data>
+        <record model="ir.ui.view" id="view_model_sale_report_static_search">
+            <field name="name">sale.report.static.search</field>
+            <field name="model">sale.report.static</field>
+            <field name="arch" type="xml">
+               <search string="sale.report.static">
+                    <field name="product_id"/>
+                </search>
+            </field>
+        </record>
+        
+        <record id="view_model_sale_report_static_tree" model="ir.ui.view">
+            <field name="name">sale.report.static.tree</field>
+            <field name="model">sale.report.static</field>
+            <field name="priority" eval="8"/>
+            <field name="arch" type="xml">
+                <tree string="Total product sales" version="7.0">
+                    <field name='product_id' />
+                    <field name='total_sale_today'/>
+                    <field name='total_sale_last_day'/>
+                    <field name='total_sale_week'/>
+                    <field name='total_sale_two_weeks'/>
+                    <field name='total_sale_month'/>
+                    <field name='total_sale'/>
+                </tree>
+            </field>
+        </record>
+        
+        <record model="ir.actions.act_window" id="act_open_model_sale_report_static_view">
+            <field name="name">Total Product Sales</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">sale.report.static</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">tree,form</field>
+            <field name="view_id" ref="view_model_sale_report_static_tree"/>
+            <field name="domain">[]</field>
+            <field name="context">{}</field>
+        </record>
+
+        <menuitem id="menu_model_sale_report_static" 
+            action="act_open_model_sale_report_static_view"
+                          sequence="30"
+                          parent="base.menu_product"
+                          name="Product Total Sales"/>
+    </data>
+</openerp>
