@@ -42,6 +42,7 @@ with sale_count as (
  from product_product pp
  join sale_order_line sol on pp.id = sol.product_id
  join sale_order so on so.id = sol.order_id
+ where so.state = 'done'
  group by pp.id, so.date_order
 )
 select
