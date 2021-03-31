@@ -19,13 +19,14 @@ class AccountInvoice(models.Model):
     @api.onchange('partner_id', 'company_id')
     def _onchange_partner_id(self):
         res = super(AccountInvoice, self)._onchange_partner_id()
-        if self.partner_id and self.type:
-            if self.type in ('out_invoice', 'out_refund'):
-                self.transmit_method_id = self.partner_id.\
-                    customer_invoice_transmit_method_id.id or False
-            else:
-                self.transmit_method_id = self.partner_id.\
-                    supplier_invoice_transmit_method_id.id or False
+        if not self.transmit_method_id:
+            if self.partner_id and self.type:
+                if self.type in ('out_invoice', 'out_refund'):
+                    self.transmit_method_id = self.partner_id.\
+                        customer_invoice_transmit_method_id.id or False
+                else:
+                    self.transmit_method_id = self.partner_id.\
+                        supplier_invoice_transmit_method_id.id or False
         return res
 
     @api.model
