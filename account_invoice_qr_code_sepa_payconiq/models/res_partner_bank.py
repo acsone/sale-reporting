@@ -92,14 +92,18 @@ class ResPartnerBank(models.Model):
             structured_communication,
         )
 
-    def _eligible_for_qr_code(self, qr_method, debtor_partner, currency):
+    def _eligible_for_qr_code(
+        self, qr_method, debtor_partner, currency, raises_error=True
+    ):
         if qr_method == "payconiq_qr":
             return (
                 currency.name == "EUR"
                 and self.acc_type == "iban"
                 and self.sanitized_acc_number[:2] in ["LU"]
             )
-        return super()._eligible_for_qr_code(qr_method, debtor_partner, currency)
+        return super()._eligible_for_qr_code(
+            qr_method, debtor_partner, currency, raises_error=raises_error
+        )
 
     def _get_qr_code_base64(
         self,
@@ -126,7 +130,9 @@ class ResPartnerBank(models.Model):
             structured_communication,
         )
         if params and params.pop("payconiq_qr", False):
-            profile_id = self.env.company.payconiq_qr_profile_id
+            # Use the company on the record if available, or fall back to env.company
+            company = self.company_id or self.env.company
+            profile_id = company.payconiq_qr_profile_id
             # Build url that would be contained in QR code
             c_url = PAYCONIQ_URL + profile_id + "?"
             new_params = {
@@ -134,7 +140,9 @@ class ResPartnerBank(models.Model):
                 "s": "S",
                 "c": c_url + urllib.parse.urlencode(params),
             }
-            response = requests.get(PAYCONIQ_QR_URL, params=new_params, stream=True)
+            response = requests.get(
+                PAYCONIQ_QR_URL, params=new_params, stream=True, timeout=60
+            )
             raw_image = response.raw
             img = Image.open(raw_image)
 
@@ -162,7 +170,9 @@ class ResPartnerBank(models.Model):
         structured_communication,
     ):
         if qr_method == "payconiq_qr":
-            if not self.env.company.payconiq_qr_profile_id:
+            # Use the company on the record if available, or fall back to env.company
+            company = self.company_id or self.env.company
+            if not company.payconiq_qr_profile_id:
                 return _(
                     "You should provide a Payconiq Profile Id (Accounting > Settings > "
                     "Customer Payments > QR Codes"
