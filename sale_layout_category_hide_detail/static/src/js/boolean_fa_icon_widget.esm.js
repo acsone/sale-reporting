@@ -4,9 +4,9 @@
 /* Copyright 2023 Tecnativa - Yadier Quesada
 /* License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl.html).*/
 
+import {_lt, _t} from "@web/core/l10n/translation";
 const {useState} = owl;
 import {BooleanField} from "@web/views/fields/boolean/boolean_field";
-import {_lt, _t} from "@web/core/l10n/translation";
 import {registry} from "@web/core/registry";
 
 const iconTrue = "fa-check-square-o";

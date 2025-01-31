@@ -1,16 +1,16 @@
 # Copyright 2019 Tecnativa - Ernesto Tejeda
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
 
-from odoo.tests import tagged
 
 from odoo.addons.sale.tests.common import SaleCommon
 
 
-@tagged("post_install", "-at_install")
+# @tagged("post_install", "-at_install")
 class TestSaleLayoutCategoryHideDetail(SaleCommon):
     @classmethod
     def setUpClass(cls):
         super().setUpClass()
+        cls.env = cls.env(context=dict(cls.env.context, tracking_disable=True))
         cls.product = cls.env["product.product"].create(
             {"name": "Producto test", "type": "consu", "invoice_policy": "order"}
         )
