@@ -5,7 +5,6 @@
 from odoo.addons.sale.tests.common import SaleCommon
 
 
-# @tagged("post_install", "-at_install")
 class TestSaleLayoutCategoryHideDetail(SaleCommon):
     @classmethod
     def setUpClass(cls):
