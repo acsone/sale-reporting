@@ -38,7 +38,7 @@
         >
             <attribute
                 name="t-if"
-                add="current_section.show_details and current_section.show_subtotal"
+                add="current_section and current_section.show_details and current_section.show_subtotal"
                 separator=" and "
             />
         </xpath>
@@ -60,8 +60,8 @@
             expr="//tbody[hasclass('sale_tbody')]//tr[hasclass('is-subtotal', 'text-end')]"
             position="after"
         >
-            <t t-if="not current_section.show_details">
-                <tr class="bg-200 o_line_section">
+            <t t-if="current_section and not current_section.show_details">
+                <tr class="o_line_section">
                     <td colspan="99">
                         <span t-field="current_section.name" class="fw-bold" />
                         <span class="float-end">
@@ -75,6 +75,8 @@
                     </td>
                 </tr>
             </t>
+            <!-- Move current_section reset to after subtotal section -->
+            <xpath expr="//t[contains(@t-if, 'current_section')]/t[@t-value='None']" position="move"/>
         </xpath>
 
         <xpath expr="//td[@name='td_priceunit']/span" position="attributes">
