@@ -31,7 +31,7 @@
             />
         </xpath>
         <xpath
-            expr="//tbody[hasclass('sale_tbody')]//tr[hasclass('is-subtotal', 'text-end')]"
+            expr="//tbody[hasclass('sale_tbody')]//tr[hasclass('is-subtotal', 'text-end')]//td"
             position="attributes"
         >
             <attribute
@@ -55,13 +55,13 @@
             /></strong>
         </xpath>
         <xpath
-            expr="//tbody[hasclass('sale_tbody')]//tr[hasclass('is-subtotal', 'text-end')]"
-            position="after"
+            expr="//tbody[hasclass('sale_tbody')]//tr[hasclass('is-subtotal', 'text-end')]/t"
+            position="before"
         >
             <t
-                t-if="current_section and not current_section.show_details and (line_last or lines_to_report[line_index+1].display_type == 'line_section')"
+                t-if="current_section and not current_section.show_details"
             >
-                <tr class="bg-200 o_line_section">
+                <tr class="o_line_section">
                     <td colspan="99">
                         <span t-field="current_section.name" class="fw-bold" />
                         <span class="float-end">
@@ -75,6 +75,8 @@
                     </td>
                 </tr>
             </t>
+            <!-- Move current_section reset to after subtotal section -->
+            <xpath expr="//t[@t-set='current_section' and @t-value='None']" position="move"/>
         </xpath>
 
         <!-- Prices -->
