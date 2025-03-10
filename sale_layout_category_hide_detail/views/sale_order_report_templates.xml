@@ -61,7 +61,7 @@
             position="after"
         >
             <t t-if="not current_section.show_details">
-                <tr class="bg-200 o_line_section">
+                <tr class="o_line_section">
                     <td colspan="99">
                         <span t-field="current_section.name" class="fw-bold" />
                         <span class="float-end">
@@ -75,6 +75,11 @@
                     </td>
                 </tr>
             </t>
+            <!-- Move current_section reset to after subtotal section -->
+            <xpath
+                expr="//t[contains(@t-if, 'current_section')]/t[@t-value='None']"
+                position="move"
+            />
         </xpath>
 
         <xpath expr="//td[@name='td_priceunit']/span" position="attributes">
